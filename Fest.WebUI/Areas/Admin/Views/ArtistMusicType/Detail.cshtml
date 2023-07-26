@@ -1,0 +1,98 @@
+﻿@model ArtistMusicTypeDetailVM
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-A+oz9pTBz3e29JmcbjZLWuZEBmflwDwz1JDb2y7Vqx+d9XGy7VfhdZxlQDZ+eA5JLhjKTCn5Ed5P5MMihX9XKg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<div class="modal-header">
+
+    @if (Model.IsActive)
+    {
+        <h6 style="color:green">Aktif Kayıt</h6>
+    }
+    else
+    {
+        <h6 style="color:red">Kayıt Aktif Değil</h6>
+    }
+
+    <hr />
+
+
+
+
+
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+</div>
+<div class="modal-body">
+
+    
+
+
+    <br />
+
+    @if (string.IsNullOrWhiteSpace(Model.ImagePath))
+    {
+        <img style="width:100px;height:100px" src="~/images/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg" />
+    }
+    else
+    {
+        <a style="width:80px;height:80px" href="~/images/artists/@Model.ImagePath" data-title="@Model.NameAndLastName">
+
+            <img src="~/images/artists/@Model.ImagePath" alt="@Model.NameAndLastName" style="width:100px;height:100px" />
+
+        </a>
+    }
+
+
+    <h6>Sanatçı : @Model.NameAndLastName</h6>
+
+    <br />
+
+    <h6>Müzik-Şarkı Adı : @Model.SongName</h6>
+
+    <br />
+
+    <h6>Müzik Şarkı Tipi : @Model.MusicType</h6>
+
+    <br />
+
+    <h6>
+        Sanatçı Sosyal Medya Hesapları :
+
+        <a href="@Model.Youtube">
+            <i class="bi bi-youtube"></i>
+
+        </a>
+
+        <a href="@Model.Twitter">
+            <i class="bi bi-twitter"></i>
+
+        </a>
+
+        <a href="@Model.LinkedIn">
+            <i class="bi bi-linkedin"></i>
+
+        </a>
+
+        <a href="@Model.Instagram">
+            <i class="bi bi-instagram"></i>
+
+        </a>
+
+
+    </h6>
+
+
+
+    <hr />
+
+    
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+
+</div>

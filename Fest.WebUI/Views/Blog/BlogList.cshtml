@@ -1,0 +1,132 @@
+﻿@model List<BlogListVM>
+
+
+
+
+<div style="margin-top:150px">
+
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="#"><i class="fa fa-home"></i> Home</a>
+                        <span>Blog</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="blog spad">
+
+        <div class="container">
+
+            <div class="row">
+
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+
+                        <div class="blog__item">
+
+                            <div class="blog__item__pic">
+
+                                @if (string.IsNullOrWhiteSpace(item.ImagePath))
+                                {
+                                    <img src="~/images/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg" />
+                                }
+                                else
+                                {
+                                    <img style="height:400px" width="100px" src="~/images/blogs/@item.ImagePath" />
+                                }
+
+
+
+                            </div>
+
+
+                            <div class="blog__item__text">
+
+                                <span>@item.Title</span>
+
+                                <ul>
+                                    <li>Yazar <span>BY Fizz</span> </li>
+
+                                    <li>@item.CreatedDate</li>
+
+                                    <li>
+                                        <a asp-controller="Blog" asp-action="BlogDetail" asp-route-id="@item.Id" class="btn btn-sm btn-link">Devamı -->></a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                }
+
+
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+
+
+<footer class="footer footer--normal spad set-bg" data-setbg="/templates/user/img/footer-bg.png">
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="footer__address">
+                    <ul>
+                        <li>
+                            <i class="fa fa-phone"></i>
+                            <p>Phone</p>
+                            <h6>1-677-124-44227</h6>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope"></i>
+                            <p>Email</p>
+                            <h6>DJ.Music@gmail.com</h6>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-1 col-md-6">
+                <div class="footer__social">
+                    <h2>DJoz</h2>
+                    <div class="footer__social__links">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 offset-lg-1 col-md-6">
+                <div class="footer__newslatter">
+                    <h4>Stay With me</h4>
+                    <form action="#">
+                        <input type="text" placeholder="Email">
+                        <button type="submit"><i class="fa fa-send-o"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+

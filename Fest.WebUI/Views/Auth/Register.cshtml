@@ -1,0 +1,460 @@
+﻿@model RegisterVM
+@{
+    Layout = null;
+}
+
+<head>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: #1c6071;
+            padding: 0 10px;
+        }
+
+        .wrapper {
+            max-width: 700px;
+            width: 100%;
+            background: #fff;
+            margin: 20px auto;
+            padding: 30px;
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.125);
+        }
+
+            .wrapper .title {
+                font-size: 24px;
+                font-weight: 700;
+                margin-bottom: 25px;
+                color: #104e8b;
+                text-transform: uppercase;
+                text-align: center;
+            }
+
+            .wrapper .form {
+                width: 100%;
+            }
+
+        input_field span {
+            display: block;
+        }
+
+        .wrapper .form .input_field {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center
+        }
+
+            .wrapper .form .input_field label {
+                width: 100px;
+                color: #757575;
+                margin-right: 10px;
+                font-size: 14px;
+            }
+
+            .wrapper .form .input_field .input,
+            .wrapper .form .input_field .textArea {
+                width: 100%;
+                outline: none;
+                border: 2px solid #d5dbb9;
+                font-size: 15px;
+                padding: 8px 10px;
+                border-radius: 3px;
+                transition: all 0.3s ease;
+            }
+
+            .wrapper .form .input_field .textArea {
+                resize: none;
+                height: 125px;
+            }
+
+            .wrapper .form .input_field .custom-select {
+                position: relative;
+                width: 100%;
+                height: 37px;
+            }
+
+                .wrapper .form .input_field .custom-select select {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    border: 1px solid #d5dbd9;
+                    width: 100%;
+                    height: 100%;
+                    padding: 8px 10px;
+                    border-radius: 3px;
+                    outline: none;
+                }
+
+                .wrapper .form .input_field .custom-select:before {
+                    content: "";
+                    position: absolute;
+                    top: 12px;
+                    right: 10px;
+                    border: 8px solid;
+                    border-color: red transparent transparent transparent;
+                    pointer-events: none;
+                }
+
+
+            .wrapper .form .input_field .input:focus,
+            .wrapper .form .input_field .textArea:focus,
+            .wrapper .form .input_field select:focus {
+                border: 1px;
+                outline: solid 1px;
+            }
+
+            .wrapper .form .input_field p {
+                font-size: 14px;
+                color: #757575;
+            }
+
+            .wrapper .form .input_field .check {
+                width: 15px;
+                height: 15px;
+                position: relative;
+                display: block;
+                cursor: pointer;
+            }
+
+
+                .wrapper .form .input_field .check input[type="checkbox"] {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    opacity: 0;
+                }
+
+                .wrapper .form .input_field .check .checkmark {
+                    width: 15px;
+                    height: 15px;
+                    border: 1px solid #104e8b;
+                    display: block;
+                    position: relative;
+                }
+
+                    .wrapper .form .input_field .check .checkmark:before {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 5px;
+                        height: 2px;
+                        border: 2px solid;
+                        border-color: transparent transparent #fff #fff;
+                        transform: rotate(-45deg);
+                    }
+
+                .wrapper .form .input_field .check input[type="checkbox"]:checked ~ .checkmark {
+                    background: #104e8b;
+                }
+
+                    .wrapper .form .input_field .check input[type="checkbox"]:checked ~ .checkmark:before {
+                        display: block;
+                    }
+
+
+            .wrapper .form .input_field .btn {
+                width: 100%;
+                padding: 8px 10px;
+                font-size: 15px;
+                border: 0;
+                background: #104e8b;
+                color: #fff;
+                cursor: pointer;
+                border-radius: 3px;
+                outline: none;
+            }
+
+            .wrapper .form .input_field:last-child {
+                margin-bottom: auto;
+            }
+
+            .wrapper .form .input_field .btn:hover {
+                background: #ffd658;
+            }
+
+        .input_field div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        span {
+            color: red;
+        }
+
+        .input_field {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .input_field span {
+                margin-top: auto;
+                display: block;
+                margin-left: 0;
+            }
+
+
+        .check input {
+            vertical-align: middle;
+        }
+
+    </style>
+
+
+
+
+</head>
+
+
+
+<body>
+
+    <div class="wrapper">
+
+        <div class="title">
+
+            <h1>Kayıt Ol</h1>
+
+        </div>
+
+
+        <div>
+
+            @if (@ViewBag.errorMessage != null)
+            {
+                <span>@ViewBag.errorMessage</span>
+            }
+
+        </div>
+
+
+
+        <form method="post" asp-controller="Auth" asp-action="Register">
+
+            <div class="form">
+
+
+
+
+                <div class="input_field">
+
+
+                    <input asp-for="Name" class="input" type="text" placeholder="İsim" />
+
+
+
+                    <span class="text-danger fw-bold mt-1" asp-validation-for="Name"></span>
+
+                </div>
+
+
+
+
+                <div class="input_field">
+
+
+                    <input asp-for="LastName" class="input" type="text" placeholder="Soyisim" />
+
+
+                    <span class="text-danger fw-bold mt-1" asp-validation-for="LastName"></span>
+
+                </div>
+
+                <div class="input_field">
+
+
+                    <input asp-for="Email" class="input" type="email" placeholder="Email" />
+
+
+                    <span class="text-danger fw-bold mt-1" asp-validation-for="Email"></span>
+
+                </div>
+
+                <div class="input_field">
+
+
+                    <input asp-for="Password" class="input" type="password" placeholder="Parola" />
+
+
+
+                    <span class="text-danger fw-bold mt-1" asp-validation-for="Password"></span>
+
+                </div>
+
+                <div class="input_field">
+
+
+                    <input asp-for="ConfirmPassword" class="input" type="password" placeholder="Parola Tekrarı" />
+
+
+                    <span class="text-danger fw-bold mt-1" asp-validation-for="ConfirmPassword"></span>
+
+                </div>
+
+                <div class="input_field">
+
+
+                    <input asp-for="Phone" class="input" type="tel" placeholder="Telefon Numarası" />
+
+                    <span class="text-danger fw-bold mt-1" asp-validation-for="Phone"></span>
+
+                </div>
+
+                <div class="input_field">
+
+                    
+
+                    <div class="custom-select">
+
+                        <select>
+
+                            
+
+                            <option value="">
+
+                            </option>
+
+                            <option value="Erkek">
+
+                            </option>
+
+                            <option value="Kadın">
+
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+                <div class="input_field">
+
+
+
+                    <textarea asp-for="Address" class="textArea" placeholder="Adres"></textarea>
+
+
+                    <span class="text-danger fw-bold mt-1" asp-validation-for="Address"></span>
+
+                </div>
+
+
+                <div class="terms">
+
+                    <div class="input_field">
+
+
+
+                        <label class="check">
+
+
+
+
+                            <input asp-for="IsChecked" type="checkbox" />
+
+
+
+                            <span asp-validation-for="IsChecked" class="checkmark"></span>
+
+
+
+
+
+                        </label>
+
+
+                        <p>
+
+                            <a href="#">Üyelik Sözleşmesini Ve Gizlilik Politikasını</a>
+                            Okudum Kabul Ediyorum.
+                        </p>
+
+
+
+
+
+
+                    </div>
+
+                </div>
+
+                <br />
+
+                <div class="terms">
+
+                    <div class="input_field">
+
+
+
+                        <label class="check">
+
+
+
+
+                            <input asp-for="IsChecked" type="checkbox" />
+
+
+
+                            <span asp-validation-for="IsChecked" class="checkmark"></span>
+
+
+
+
+
+                        </label>
+
+
+                        <p>
+
+                            <a href="#">Duyurulardan Haberdar Olmak İstiyorum</a>
+
+                        </p>
+
+
+
+
+
+
+                    </div>
+
+                </div>
+
+                <br />
+
+
+
+                <div class="input_field">
+
+                    <button type="submit" class="btn">Kayıt Ol</button>
+
+
+                </div>
+
+
+            </div>
+
+
+        </form>
+
+
+
+    </div>
+
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+
+
+</script>

@@ -1,0 +1,114 @@
+﻿@model MusicTypeAddOrUpdateVM
+
+
+<div class="container" style="padding-top:40px">
+
+    <div class="row">
+
+        <div class="col-md-8 offset-2">
+
+            <div class="card" style="border:solid 2px">
+
+                <div class="card-header fw-bold fs-5" style="text-align:center">
+
+                    <p class="text-bg-light">
+
+                        <span>
+
+                            @(Model.Id == 0 ? "Müzik Ekleme Formu" : "Müzik Düzenleme Formu")
+
+                        </span>
+
+                    </p>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="post" asp-area="Admin" asp-controller="MusicType" asp-action="Save">
+
+
+
+                        @if (!string.IsNullOrWhiteSpace(ViewBag.errorMessage))
+                        {
+
+                            <div class="alert alert-danger">
+                                @ViewBag.errorMessage
+                            </div>
+
+                        }
+
+                        <input asp-for="Id" type="hidden" />
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="MusicName"></label>
+
+                            <input asp-for="MusicName" class="form-control" type="text"/>
+
+                            <span class="text-danger fw-bold" asp-validation-for="MusicName"></span>
+
+                        </div>
+
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="TypeName"></label>
+
+                            <input asp-for="TypeName" class="form-control" type="text" />
+
+                            <span class="text-danger fw-bold" asp-validation-for="TypeName"></span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label asp-for="Description"></label>
+
+                            <textarea asp-for="Description" class="form-control">
+
+                            </textarea>
+
+                            <span asp-validation-for="Description" class="text-danger fw-bold"></span>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-success mt-3 float-end">
+                            @(Model.Id == 0 ? "Ekle" : "Güncelle")
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts{
+
+    <script>
+
+        //$("#Save").click(function(){
+
+        //    var data = $("#SubmitForm").serialize();
+
+        //    $.ajax({
+
+        //        type:"Post",
+        //        data:data
+        //        success:function(result){
+
+        //            alert("Success!..");
+        //            window.location.href("/Admin/MusicType/List");
+                    
+        //        }
+        //    })
+        //})
+
+    </script>
+
+}

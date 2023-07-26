@@ -1,0 +1,109 @@
+﻿@model ArtistDetailVM
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-A+oz9pTBz3e29JmcbjZLWuZEBmflwDwz1JDb2y7Vqx+d9XGy7VfhdZxlQDZ+eA5JLhjKTCn5Ed5P5MMihX9XKg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<div class="modal-header">
+
+    @if (Model.IsActive)
+    {
+        <h6 style="color:green;display:block">Aktif Kayıt</h6>
+    }
+    else
+    {
+        <h6 style="color:red" ;>Kayıt Aktif Değil</h6>
+    }
+
+    <hr />
+
+    <br />
+
+
+
+
+
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+</div>
+<div class="modal-body">
+
+    <div style="display:block">
+        <p>
+            <span>Sanatçı Kayıt Tarihi : @Model.CreatedDate.ToShortDateString()</span>
+        </p>
+    </div>
+
+
+    <br />
+
+    @if (string.IsNullOrWhiteSpace(Model.ImagePath))
+    {
+        <img style="width:100px;height:100px" src="~/images/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg" />
+    }
+    else
+    {
+        <a style="width:80px;height:80px" href="~/images/artists/@Model.ImagePath" data-title="@Model.Name">
+
+            <img src="~/images/artists/@Model.ImagePath" alt="@Model.Name" style="width:465px;height:200px" />
+
+        </a>
+    }
+
+    <br />
+
+    <br />
+
+    <h6>Sanatçı : @Model.Name   @Model.LastName</h6>
+
+    <br />
+
+
+
+    <h6>Yaş : @Model.Age</h6>
+
+    <br />
+
+    <h6>
+        Sanatçı Sosyal Medya Hesapları :
+
+        <a>
+            <i class="bi bi-youtube"></i>
+
+        </a>
+
+        <a>
+            <i class="bi bi-twitter"></i>
+
+        </a>
+
+        <a>
+            <i class="bi bi-linkedin"></i>
+
+        </a>
+
+        <a>
+            <i class="bi bi-instagram"></i>
+
+        </a>
+
+
+    </h6>
+
+
+
+    <hr />
+
+    <p>
+        <b class="text-secondary">Sanatçı Hakkında : @Model.Description</b>
+    </p>
+
+
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+
+</div>

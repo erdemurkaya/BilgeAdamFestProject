@@ -1,0 +1,170 @@
+﻿@model ArtistAddOrUpdateVM
+
+<div class="container" style="padding-top:40px">
+
+    <div class="row">
+
+        <div class="col-md-8 offset-2">
+
+            <div class="card" style="border:solid 2px">
+
+                <div class="card-header fw-bold fs-5" style="text-align:center;">
+
+                    <p class="text-bg-light">
+
+                        <span>
+
+                            @(Model.Id==0?"Sanatçı Ekleme Formu":"Sanatçı Düzenleme Formu")
+
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <form method="post" asp-area="Admin" asp-controller="Artist" asp-action="Save" enctype="multipart/form-data">
+
+                        @if (!string.IsNullOrWhiteSpace(ViewBag.errorMessage))
+                        {
+                            <div class="alert-danger">
+                                @ViewBag.errorMessage
+                            </div>
+                        }
+
+                        <input asp-for="Id" type="hidden" />
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="Name"></label>
+
+                            <input asp-for="Name" class="form-control" type="text" />
+
+                            <span asp-validation-for="Name" class="text-danger fw-bold"></span>
+
+                        </div>
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="LastName"></label>
+
+                            <input asp-for="LastName" class="form-control" type="text" />
+
+                            <span asp-validation-for="LastName" class="text-danger fw-bold"></span>
+
+                        </div>
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="BirthDate"></label>
+
+                            <input asp-for="BirthDate" class="form-control" type="date" />
+
+                            <span asp-validation-for="BirthDate" class="text-danger fw-bold"></span>
+
+                        </div>
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="InstagramUrl"></label>
+
+                            <input asp-for="InstagramUrl" class="form-control" type="text" />
+
+                            <span asp-validation-for="InstagramUrl" class="text-danger fw-bold"></span>
+
+                        </div>
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="YoutubeUrl"></label>
+
+                            <input asp-for="YoutubeUrl" class="form-control" type="text" />
+
+                            <span asp-validation-for="YoutubeUrl" class="text-danger fw-bold"></span>
+
+                        </div>
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="LinkedInUrl"></label>
+
+                            <input asp-for="LinkedInUrl" class="form-control" type="text" />
+
+                            <span asp-validation-for="LinkedInUrl" class="text-danger fw-bold"></span>
+
+                        </div>
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="TwitterUrl"></label>
+
+                            <input asp-for="TwitterUrl" class="form-control" type="text" />
+
+                            <span asp-validation-for="TwitterUrl" class="text-danger fw-bold"></span>
+
+                        </div>
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="Description"></label>
+
+                            <textarea asp-for="Description" class="form-control" type="text">
+
+                            </textarea>
+
+                            <span asp-validation-for="Description" class="text-danger fw-bold"></span>
+
+                        </div>
+
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="File"></label>
+
+                            @if (Model.Id != 0)
+                            {
+                                @if (string.IsNullOrWhiteSpace(@ViewBag.ImagePath))
+                                {
+                                    <div>
+
+                                        <img src="~/images/artists/@ViewBag.ImagePath" style="width:200px; height:200px" />
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div>
+
+                                        <img src="~/images/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg"
+                                        style="width:200px; height:200px"/>
+
+                                    </div>
+                                }
+                            }
+
+
+                            <input asp-for="File" type="file" class="form-control" />
+
+                            <span asp-validation-for="Description" class="text-danger fw-bold"></span>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-success mt-3 float-end">
+                            
+                            @(Model.Id==0?"Kaydet":"Güncelle")
+
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

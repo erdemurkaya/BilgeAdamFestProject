@@ -1,0 +1,58 @@
+﻿@model CityDetailVM
+
+
+<div class="modal-header">
+
+    @if (Model.IsActive)
+    {
+        <h6 style="color:green">Aktif Kayıt</h6>
+    }
+    else
+    {
+        <h6 style="color:red">Kayıt Aktif Değil</h6>
+    }
+
+    <hr />
+
+
+
+
+
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+</div>
+<div class="modal-body">
+
+    <h6>Oluşturulma Tarihi : @Model.CreatedDate.ToShortDateString()</h6>
+
+    <br />
+
+    <h6>
+
+
+        @Model.CountryName
+    </h6>
+
+    <br />
+
+    <h6>Oluşturulma Tarihi : @Model.Name</h6>
+
+
+
+    <hr />
+
+    <p>
+
+        <b class="text-secondary">Açıklaması : @Model.Description</b>
+
+    </p>
+
+</div>
+
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+
+</div>

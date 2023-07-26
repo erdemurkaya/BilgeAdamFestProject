@@ -1,0 +1,233 @@
+﻿@model PagedList<ArtistMusicTypeListVM>
+
+<div class="container">
+
+
+    <div class="row">
+
+        <div class="col-sm-11">
+
+            <div class="text-center">
+
+                <h2 style="font-family:'Italic Outline Art';" class="text-secondary">Sanatçı - Müzik</h2>
+            </div>
+
+
+            <div style="padding-top:50px">
+
+
+                <div style="margin-bottom:15px">
+
+
+                    <div class="float-start">
+                        <form>
+                            <div class="btn-group">
+                                <input class="form-control" type="text" placeholder="Arama Yap ...." name="search" style="display: inline-block; width: 80%;" />
+                                <input class="p-2 ml-3 btn btn-sm btn-primary" type="submit" value="Ara" style="display: inline-block; width: 20%;" />
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <div class="float-end">
+                    <a asp-area="Admin" asp-controller="ArtistMusicType" asp-action="Add" class="btn btn-link">
+
+                        <i class="bi bi-plus-circle-fill">
+                            Yeni Sanatçı-Müzik
+                        </i>
+
+                    </a>
+                </div>
+
+
+                <table id="myTable" class="table table-bordered table-striped">
+
+                    <thead>
+
+                        <tr>
+                            <th></th>
+                            <th>Sanatçı</th>
+                            <th>Müzik</th>
+                            <th>Müzik Türü</th>
+                            <th></th>
+
+                            <th></th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model != null)
+                        {
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+
+                                <tr class="table">
+
+
+                                    <td>
+
+                                        @if (string.IsNullOrWhiteSpace(Model[i].ImagePath))
+                                        {
+                                            <img style="width:100px;height:100px" src="~/images/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg" />
+                                        }
+                                        else
+                                        {
+                                            <a style="width:80px;height:80px" href="~/images/artists/@Model[i].ImagePath" data-lightbox="@Model[i].Id" data-title="@Model[i].ArtistNameAndLastName">
+
+                                                <img src="~/images/artists/@Model[i].ImagePath" alt="@Model[i].ArtistNameAndLastName" style="width:100px;height:100px" />
+
+                                            </a>
+                                        }
+
+                                    </td>
+
+
+
+                                    <td>@Model[i].ArtistNameAndLastName</td>
+                                    <td class="mt-4">@Model[i].SongName</td>
+                                    <td class="mt-4">@Model[i].MusicType</td>
+
+
+
+                                    <td>
+
+
+
+                                        <button class="btn btn-sm btn-secondary modalButton" onclick="openModal(@Model[i].ArtistId,@Model[i].MusicTypeId)">
+                                            <i class="bi-search"></i>
+                                            Detay
+
+
+                                        </button>
+
+
+
+
+
+
+                                        <a style="margin-left:3px" asp-area="Admin" asp-controller="Artist" asp-action="New" asp-route-id="@Model[i].Id" class="btn btn-sm btn-primary" alt="Güncelle">
+                                            <i class="bi bi-pencil-fill">Güncelle</i>
+                                        </a>
+
+
+                                        
+
+
+                                        
+
+
+                                    </td>
+
+
+                                </tr>
+
+                            }
+                        }
+                        else
+                        {
+                            <tr class="container">
+                                <td>Henüz Bir Kayıt Bulunamadı</td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+
+                </table>
+
+
+                <div style="margin-top:30px">
+
+                    <div class="col-md-3
+" style="margin-left:auto;text-align:right">
+
+                        @Html.PagedListPager((IPagedList)Model,page=>Url.Action("List","ArtistMusicType",new {page=page}),
+                        new PagedListRenderOptions {
+
+                        LiElementClasses=new List<string>
+                        {"page-link"}
+                        })
+
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div>
+            <p class="text-secondary">Toplam : @ViewBag.artistMusicType Kayıt Bulundu.</p>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+
+
+
+@section Scripts{
+
+    <script>
+
+
+        function openModal(artistId, musicTypeId) {
+
+            $.ajax({
+
+                url: '/Admin/ArtistMusicType/Detail',
+                type: 'POST',
+                data: { artistId: artistId, musicTypeId: musicTypeId },
+                success: function (result) {
+
+                    $("#modalContent").html(result);
+                    $("#modalContainer").modal("show");
+                }
+
+            })
+
+        }
+
+
+                        //$(".modalButton").click(function () {
+                        //    // AJAX isteği yapın
+
+                        //    var Id = $(this).data("id")
+
+                        //    $.ajax({
+                        //        url: "/Admin/User/Detail/" + Id,
+                        //        type: "GET",
+                        //        success: function (result) {
+                        //            // Detail sayfasındaki içeriği alın
+                        //            $("#modalContent").html(result);
+                        //            // Modalı açın
+                        //            $("#modalContainer").modal("show");
+                        //        }
+                        //    });
+                        //});
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+}

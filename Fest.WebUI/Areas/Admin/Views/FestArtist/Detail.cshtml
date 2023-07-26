@@ -1,0 +1,58 @@
+﻿@model FestArtistDetailVM
+
+
+
+<div class="modal-header">
+
+    
+
+    <hr />
+
+
+
+
+
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+</div>
+<div class="modal-body">
+
+    <br />
+
+   
+
+
+    <h6>Festival : @Model.FestName</h6>
+
+    
+
+    <h6>Başlangıç Tarihi : @Model.StartDate</h6>
+
+    
+
+    
+
+    Tüm Sanatçılar :
+
+    @foreach(var item in Model.Artists)
+    {
+        <h6 class="text-bg-primary"> @item.NameAndLastName</h6>
+
+        
+    }
+
+
+    
+
+    
+
+<hr />   
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+
+</div>

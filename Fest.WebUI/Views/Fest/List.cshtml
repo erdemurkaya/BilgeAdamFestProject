@@ -1,0 +1,157 @@
+﻿@model List<FestListVM>
+
+
+<section class="countdown countdown--page spad set-bg" data-setbg="/images/fests/@ViewBag.firstData.ImagePath">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="countdown__text">
+                    <h1>@ViewBag.firstData.FestName</h1>
+                    <h4>Başlayacak Olan Festival</h4>
+                </div>
+                <div class="countdown__timer" id="countdown-time">
+                    <div class="countdown__item">
+                        <span>20</span>
+                        <p>days</p>
+                    </div>
+                    <div class="countdown__item">
+                        <span>45</span>
+                        <p>hours</p>
+                    </div>
+                    <div class="countdown__item">
+                        <span>18</span>
+                        <p>minutes</p>
+                    </div>
+                    <div class="countdown__item">
+                        <span>09</span>
+                        <p>@ViewBag.firstData.StartDate</p>
+                    </div>
+                </div>
+                <div class="buy__tickets">
+                    <a href="#" class="primary-btn">Buy tickets</a>
+
+                    <a asp-controller="Fest" asp-action="Detail" asp-route-id="@ViewBag.firstData.Id" class="primary-btn ">Bilet Al</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="tours spad">
+    <div class="container">
+
+        @foreach (var item in Model)
+        {
+            <div class="row">
+
+
+
+
+                <div class="col-lg-6 order-lg-1">
+                    <div class="tours__item__text">
+                        <h2>@item.StartDate</h2>
+                        <div class="tours__text__widget">
+                            <ul>
+                                <li>
+                                    <i class="fa fa-clock-o"></i>
+                                    <span>8:00pm</span>
+                                    <span>Dec 15, 2019</span>
+                                </li>
+                                <li>
+                                    <i class="fa fa-map-marker"></i>
+                                    @item.CountryName , @item.CityName
+                                </li>
+                            </ul>
+                            <div class="price">$ @item.TicketPrice</div>
+                        </div>
+                        <div class="tours__text__desc">
+
+                            <p>
+                                @item.Description
+                            </p>
+                        </div>
+                        <a asp-controller="Fest" asp-action="Detail" asp-route-id="@item.Id" class="primary-btn border-btn">Bilet Al</a>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-6 order-lg-6">
+                    <div class="tours__item__pic tours__item__pic--last">
+                        <img style="height:400px;width:180px" src="~/images/fests/@item.ImagePath" alt="">
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+            <br />
+
+            <br />
+
+            <br />
+
+        }
+
+
+
+
+
+
+    </div>
+</section>
+
+
+
+
+
+
+<footer class="footer footer--normal spad set-bg" data-setbg="/templates/user/img/footer-bg.png">
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="footer__address">
+                    <ul>
+                        <li>
+                            <i class="fa fa-phone"></i>
+                            <p>Phone</p>
+                            <h6>1-677-124-44227</h6>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope"></i>
+                            <p>Email</p>
+                            <h6>DJ.Music@gmail.com</h6>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 offset-lg-1 col-md-6">
+                <div class="footer__social">
+                    <h2>DJoz</h2>
+                    <div class="footer__social__links">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                        <a href="#"><i class="fa fa-dribbble"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 offset-lg-1 col-md-6">
+                <div class="footer__newslatter">
+                    <h4>Stay With me</h4>
+                    <form action="#">
+                        <input type="text" placeholder="Email">
+                        <button type="submit"><i class="fa fa-send-o"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+

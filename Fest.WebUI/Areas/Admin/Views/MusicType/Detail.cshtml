@@ -1,0 +1,53 @@
+﻿@model MusicTypeDetailVM
+
+
+
+<div class="modal-header">
+
+    @if (Model.IsActive)
+    {
+        <h6 style="color:green">Aktif Kayıt</h6>
+    }
+    else
+    {
+        <h6 style="color:red">Kayıt Aktif Değil</h6>
+    }
+
+    <hr />
+
+
+
+
+
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+</div>
+<div class="modal-body">
+
+    <p>Oluşturulma Tarihi : @Model.CreatedDate.ToShortDateString()</p>
+
+
+    <h6 class="modal-title">
+        Müzik Tipi : @Model.TypeName
+
+        
+
+    </h6>
+
+    <br />
+
+    Müzik Adı : @Model.MusicName
+
+
+    <br />
+
+    
+
+    <hr />
+
+    <p>Açıklaması : @Model.Description </p>
+
+</div>
+

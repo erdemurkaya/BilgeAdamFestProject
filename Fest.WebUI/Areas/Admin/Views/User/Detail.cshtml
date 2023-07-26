@@ -1,0 +1,52 @@
+﻿@model UserDetailVM
+
+<div class="modal-header">
+
+    @if (Model.IsActive)
+    {
+        <h6 style="color:green">Aktif Kayıt</h6>
+    }
+    else
+    {
+        <h6 style="color:red">Kayıt Aktif Değil</h6>
+    }
+
+    <hr />
+
+
+
+
+
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+</div>
+<div class="modal-body">
+
+
+    <p>Oluşturulma Tarihi : @Model.CreatedDate.ToShortDateString()</p>
+
+
+    <h6  class="modal-title">
+        Kullanıcı : @Model.NameAndLastName.ToUpper()
+
+    </h6>
+
+
+    Kullanıcı Telefon No : @Model.Phone
+
+
+    Kullanıcı E-Mail : @Model.Email
+
+
+
+
+
+    
+
+    <hr />
+
+    
+
+</div>

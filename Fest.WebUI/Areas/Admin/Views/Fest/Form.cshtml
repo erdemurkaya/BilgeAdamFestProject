@@ -1,0 +1,168 @@
+﻿@model FestAddOrUpdateVM
+
+
+<div class="container" style="padding-top:40px">
+
+    <div class="row">
+
+        <div class="col-md-8 offset-2">
+
+            <div class="card" style="border:solid 2px">
+
+                <div class="card-header fw-bold fs-5" style="text-align:center">
+
+                    @(Model.Id == 0 ? "Festival Ekleme Formu" : "Festival Düzenleme Formu")
+                </div>
+
+                <div class="card-body">
+
+                    <form method="post" asp-area="Admin" asp-controller="Fest" asp-action="Save" enctype="multipart/form-data">
+
+
+
+                        @if (!string.IsNullOrWhiteSpace(ViewBag.errorMessage))
+                        {
+
+                            <div class="alert alert-danger">
+                                @ViewBag.errorMessage
+                            </div>
+
+                        }
+
+                        <input asp-for="Id" type="hidden" />
+
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="FestName"></label>
+
+                            <input asp-for="FestName" class="form-control" type="text" />
+
+                            <span class="text-danger fw-bold" asp-validation-for="FestName"></span>
+
+                        </div>
+
+                        
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="CityId"></label>
+
+                            <select asp-items="@(new SelectList(ViewBag.cities,"Id","Name"))" class="form-control" type="text"
+                                    asp-for="CityId">
+                            </select>
+
+                            <span asp-validation-for="CityId" class="text-danger fw-bold"></span>
+
+                            
+
+                        </div>
+
+
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="StartDate"></label>
+
+                            <input asp-for="StartDate" class="form-control" type="date" />
+
+                            <span asp-validation-for="StartDate" class="text-danger fw-bold"></span>
+
+                        </div>
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="EndDate"></label>
+
+                            <input asp-for="EndDate" class="form-control" type="date" />
+
+                            <span asp-validation-for="EndDate" class="text-danger fw-bold"></span>
+
+                        </div>
+
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="TicketPrice"></label>
+
+                            <input asp-for="TicketPrice" class="form-control" type="number" />
+
+                            <span class="text-danger fw-bold" asp-validation-for="TicketPrice"></span>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label asp-for="Location"></label>
+
+                            <textarea asp-for="Location" class="form-control">
+
+                            </textarea>
+
+                            <span asp-validation-for="Location" class="text-danger fw-bold"></span>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label asp-for="Description"></label>
+
+                            <textarea asp-for="Description" class="form-control">
+
+                            </textarea>
+
+                            <span asp-validation-for="Description" class="text-danger fw-bold"></span>
+
+                        </div>
+
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="File"></label>
+
+                            @if (Model.Id != 0)
+                            {
+                                @if (string.IsNullOrWhiteSpace(@ViewBag.ImagePath))
+                                {
+                                    <div>
+
+                                        <img src="~/images/fests/@ViewBag.imagePath" style="width:200px; height:200px" />
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div>
+
+                                        <img src="~/images/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg"
+                                             style="width:200px; height:200px" />
+
+                                    </div>
+                                }
+                            }
+
+
+                            <input asp-for="File" type="file" class="form-control" />
+
+                            <span asp-validation-for="File" class="text-danger fw-bold"></span>
+
+                        </div>
+
+
+                        <button type="submit" class="btn btn-success mt-3 float-end">
+                            @(Model.Id == 0 ? "Ekle" : "Güncelle")
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

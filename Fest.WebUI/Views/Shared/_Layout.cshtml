@@ -1,0 +1,241 @@
+﻿@using Fest.WebUI.Extensions;
+
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="DJoz Template">
+    <meta name="keywords" content="DJoz, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Music FEST </title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <style>
+        .ml-auto {
+            margin-left: auto !important;
+        }
+
+        .form-inline {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        form > div > .d-flex > input,
+        form > div > .d-flex > button {
+            margin-right: 6px;
+        }
+    </style>
+
+
+
+    <partial name="_StylePartial" />
+
+</head>
+
+@{
+    var name = User.Claims.FirstOrDefault(x => x.Type == "firstName")?.Value;
+    var lastName = User.Claims.FirstOrDefault(x => x.Type == "lastName")?.Value;
+}
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+
+
+    <!-- Header Section Begin -->
+    <header class="header ">
+
+
+
+        <div class="col-5 ml-auto">
+
+
+
+
+            @if (!User.IsLogged())
+            {
+                <div class="d-none" id="login">
+
+                    <partial name="_LoginPartial" model="new LoginVM()" />
+
+                </div>
+
+
+                <div class="col-5 ml-auto">
+
+
+                    <div class="text-end mt-3" id="welcome">
+                        <button id="btnGirisYap" type="button" class="btn btn-outline-light me-2">Giriş Yap</button>
+                        <a asp-controller="Auth" asp-action="Register" class="btn btn-warning">Kayıt Ol</a>
+                    </div>
+                </div>
+
+
+            }
+            
+
+        </div>
+
+        <div class="container">
+
+
+
+            <div class="row">
+
+
+
+                <div class="col-lg-2 col-md-2">
+                    <div class="header__logo">
+                        <a asp-controller="Home" asp-action="Index"><img src="~/Templates/User/img/events/My+House+-+Flat+B+(2).png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-10 col-md-10">
+                    <div class="header__nav">
+                        <nav class="header__menu mobile-menu">
+                            <ul>
+                                <li class="active"><a href="./index.html">Anasayfa</a></li>
+                                <li><a asp-controller="Fest" asp-action="List">Festivaller</a></li>
+                                <li><a href="./discography.html">Keşfet</a></li>
+
+                                <li><a asp-controller="Blog" asp-action="BlogList">Blog</a></li>
+                                <li>
+                                    @if (User.IsLogged())
+                                    {
+                                        <a href="#">Hesabım</a>
+
+
+
+                                        <ul class="dropdown">
+
+                                            @if (User.IsLogged())
+                                            {
+                                                <li>
+
+                                                    <a> @name @lastName</a>
+
+                                                    <hr style="border: none;
+  border-bottom: 1px dashed #999;">
+
+                                                </li>
+                                            }
+
+
+
+
+                                            <li><a asp-controller="Account" asp-action="Profile">Profil</a></li>
+                                            <li><a asp-controller="Account" asp-action="Tickets">Biletlerim</a></li>
+                                            <li><a href="#">Bilgilendirme</a> </li>
+
+                                            @if (User.IsAdmin())
+                                            {
+                                                <li>
+                                                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" asp-action="">Admin Panel</a>
+
+
+
+                                                </li>
+                                            }
+
+
+
+                                            <li>
+                                                <hr style="border: none;
+  border-bottom: 1px dashed #999;">
+                                            </li>
+
+                                            <li><a asp-controller="Auth" asp-action="Logout">Çıkış Yap</a></li>
+                                        </ul>
+                                    }
+                                </li>
+
+                            </ul>
+                        </nav>
+
+
+                        <div class="header__right__social">
+
+
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-dribbble"></i></a>
+                            <a href="#"> <i class="fa fa-facebook"></i> </a>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+    <!-- Hero Section Begin -->
+
+
+
+    <div>
+
+        @RenderBody()
+
+    </div>
+
+
+
+
+
+
+
+
+
+    @*<partial name="_FooterPartial" />*@
+    <!-- Footer Section End -->
+    <!-- Js Plugins -->
+
+
+
+    <partial name="_ModalDetailPartial" />
+
+    <partial name="_ScriptPartial" />
+
+    <script>
+
+        $('#btnGirisYap').click(function () {
+
+            $('#welcome').addClass('d-none');
+            $('#login').removeClass('d-none');
+        })
+
+        $('#btnGirisIptal').click(function () {
+            $('#welcome').removeClass('d-none');
+            $('#login').addClass('d-none');
+        })
+
+        @if (!string.IsNullOrWhiteSpace(TempData["LoginMessage"]?.ToString()))
+        {
+            @:toastr.error("@TempData["LoginMessage"].ToString()")
+        }
+
+
+    </script>
+
+
+    @await RenderSectionAsync("Scripts" , required:false)
+
+
+
+
+</body>
+
+</html>

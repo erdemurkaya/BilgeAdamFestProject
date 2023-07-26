@@ -1,0 +1,241 @@
+﻿@model PagedList<FestArtistListVM>
+
+
+<div class="container">
+
+
+    <div class="row">
+
+        <div class="col-sm-11">
+
+            <div class="text-center">
+
+                <h2 style="font-family:'Italic Outline Art';" class="text-secondary">Festival-Sanatçı</h2>
+            </div>
+
+
+            <div style="padding-top:50px">
+
+
+                <div style="margin-bottom:15px">
+
+
+                    <div class="float-start">
+                        <form>
+                            <div class="btn-group">
+                                <input class="form-control" type="text" placeholder="Arama Yap ...." name="search" style="display: inline-block; width: 80%;" />
+                                <input class="p-2 ml-3 btn btn-sm btn-primary" type="submit" value="Ara" style="display: inline-block; width: 20%;" />
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <div class="float-end">
+                    <a asp-area="Admin" asp-controller="FestArtist" asp-action="Add" class="btn btn-link">
+
+                        <i class="bi bi-plus-circle-fill">
+                            Yeni Festival-Sanatçı
+                        </i>
+
+                    </a>
+                </div>
+
+
+                <table id="myTable" class="table table-bordered table-striped">
+
+                    <thead>
+
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>Festival</th>
+                            <th>Oluşturulma Tarihi</th>
+                            
+                            <th></th>
+
+                            <th></th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model != null)
+                        {
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+
+                                <tr class="table">
+
+
+
+                                    <td>@(i + 1) </td>
+
+                                    <td>
+
+                                        @if (string.IsNullOrWhiteSpace(Model[i].ImagePath))
+                                        {
+                                            <img style="width:100px;height:100px" src="~/images/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg" />
+                                        }
+                                        else
+                                        {
+                                            <a style="width:80px;height:80px" href="~/images/fests/@Model[i].ImagePath" data-title="@Model[i].FestId">
+
+                                                <img src="~/images/fests/@Model[i].ImagePath" alt="@Model[i].FestName" style="width:100px;height:100px" />
+
+                                            </a>
+                                        }
+
+                                    </td>
+
+
+
+                                    <td>@Model[i].FestName</td>
+                                    <td class="mt-4">@Model[i].CreatedDate</td>
+
+                                    
+
+
+
+
+                                    <td>
+
+
+
+                                        <button class="btn btn-sm btn-secondary modalButton" onclick="openModal(@Model[i].ArtistId,@Model[i].FestId)">
+                                            <i class="bi-search"></i>
+                                            Detay
+
+
+                                        </button>
+
+                                        
+
+
+
+
+
+
+
+                                        
+
+
+                                        
+
+
+                                    </td>
+
+
+                                </tr>
+
+                            }
+                        }
+                        else
+                        {
+                            <tr class="container">
+                                <td>Henüz Bir Kayıt Bulunamadı</td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+
+                </table>
+
+                <div style="margin-top:30px">
+
+                    <div class="col-md-3
+" style="margin-left:auto;text-align:right">
+
+                        @Html.PagedListPager((IPagedList)Model,page=>Url.Action("List","FestArtist",new {page=page}),
+                        new PagedListRenderOptions {
+
+                        LiElementClasses=new List<string>
+                        {"page-link"}
+                        })
+
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div>
+            <p class="text-secondary">Toplam : @ViewBag.festArtist Kayıt Bulundu.</p>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+
+
+
+@section Scripts{
+
+    <script>
+
+
+        function openModal(artistId, festId) {
+
+
+
+            $.ajax({
+
+
+
+                url: '/Admin/FestArtist/Detail',
+                type: 'POST',
+                data: { artistId: artistId, festId: festId },
+                success: function (result) {
+
+                    $("#modalContent").html(result);
+                    $("#modalContainer").modal("show");
+                }
+
+            })
+
+        }
+
+
+                        //$(".modalButton").click(function () {
+                        //    // AJAX isteği yapın
+
+                        //    var Id = $(this).data("id")
+
+                        //    $.ajax({
+                        //        url: "/Admin/User/Detail/" + Id,
+                        //        type: "GET",
+                        //        success: function (result) {
+                        //            // Detail sayfasındaki içeriği alın
+                        //            $("#modalContent").html(result);
+                        //            // Modalı açın
+                        //            $("#modalContainer").modal("show");
+                        //        }
+                        //    });
+                        //});
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+}

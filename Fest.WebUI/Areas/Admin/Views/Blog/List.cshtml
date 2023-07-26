@@ -1,0 +1,168 @@
+﻿@model List<BlogListVM>
+
+
+<div class="container">
+
+
+    <div class="row">
+
+        <div class="col-sm-11">
+
+            <div class="text-center">
+
+                <h2 style="font-family:'Italic Outline Art';" class="text-secondary">Bloglar</h2>
+            </div>
+
+
+            <div style="padding-top:50px">
+
+
+                <div style="margin-bottom:15px">
+
+
+                    <div class="float-start">
+                        <form>
+                            <div class="btn-group">
+                                <input class="form-control" type="text" placeholder="Arama Yap ...." name="search" style="display: inline-block; width: 80%;" />
+                                <input class="p-2 ml-3 btn btn-sm btn-primary" type="submit" value="Ara" style="display: inline-block; width: 20%;" />
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <div class="float-end">
+                    <a asp-area="Admin" asp-controller="Blog" asp-action="New" class="btn btn-link">
+
+                        <i class="bi bi-plus-circle-fill">
+                            Yeni Blog
+                        </i>
+
+                    </a>
+                </div>
+
+
+                <table id="myTable" class="table table-bordered table-striped">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+                            <th></th>
+                            <th>Başlık</th>
+                            <th>İçerik</th>
+                            
+                            <th></th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model != null)
+                        {
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+
+                                <tr class="table">
+
+                                    <td>
+                                        @if (Model[i].IsActive == true && Model[i].IsActive)
+                                        {
+                                            <p class="text-primary">Aktif</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-danger">Aktif Değil</p>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        @if (string.IsNullOrWhiteSpace(Model[i].ImagePath))
+                                        {
+                                            <img style="width:100px;height:100px" src="~/images/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg" />
+                                        }
+                                        else
+                                        {
+                                            <a style="width:80px;height:80px" href="~/images/blogs/@Model[i].ImagePath" data-lightbox="@Model[i].Id" data-title="@Model[i].Title">
+
+                                                <img src="~/images/blogs/@Model[i].ImagePath" alt="@Model[i].Title" style="width:100px;height:100px" />
+
+                                            </a>
+                                        }
+
+                                    </td>
+
+
+
+                                    <td>@Model[i].Title</td>
+                                    <td class="mt-4">
+                                        
+                                        @if (Model[i].Content.Length > 10)
+                                        {
+                                            @Model[i].Content.Substring(0, 9)
+                                        }
+                                        else
+                                        {
+                                            @Model[i].Content
+                                        }
+
+                                        </td>
+                                    
+
+                                    <td>
+
+
+                                        <a style="margin-left:30px" class="btn btn-sm btn-secondary">
+                                            <i class="bi bi-search">Detay</i>
+                                        </a>
+
+                                        <a style="margin-left:3px" asp-area="Admin" asp-controller="Blog" asp-action="New" asp-route-id="@Model[i].Id" class="btn btn-sm btn-primary" alt="Güncelle">
+                                            <i class="bi bi-pencil-fill">Güncelle</i>
+                                        </a>
+
+                                        <a style="margin-left:3px" class="btn btn-sm btn-danger">
+
+                                            <i class="bi bi-trash-fill">Sil</i>
+                                        </a>
+
+
+                                    </td>
+
+
+                                </tr>
+
+                            }
+                        }
+                        else
+                        {
+                            <tr class="container">
+                                <td>Henüz Bir Kayıt Bulunamadı</td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+
+        <div>
+            <p class="text-secondary">Toplam : @ViewBag.blogCount Blog Kayıt Bulundu.</p>
+        </div>
+
+    </div>
+
+
+
+</div>

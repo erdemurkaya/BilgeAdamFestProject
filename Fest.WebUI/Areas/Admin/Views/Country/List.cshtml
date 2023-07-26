@@ -1,0 +1,285 @@
+﻿@model PagedList<CountryVM>
+
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-sm-11">
+
+            <div>
+
+
+                <div class="text-center">
+
+
+                    <h2 style="font-family:Calibri" class="text-secondary">Ülkeler</h2>
+
+                </div>
+
+
+
+
+
+                <div style="padding-top:50px">
+
+                    <div class="margin-bottom:15px">
+
+
+                        <div style="padding-bottom:15px">
+
+
+
+
+
+                            <div class="float-start">
+                                <form>
+                                    <div class="btn-group">
+                                        <input class="form-control" type="text" placeholder="Arama Yap ...." name="search" style="display: inline-block; width: 80%; " />
+                                        <input class="p-2 ml-3 btn btn-sm btn-primary" type="submit" value="Ara" style="display: inline-block; width: 20%;" />
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="float-end">
+
+                        <a class="btn btn-sm btn-link " asp-area="Admin" asp-controller="Country" asp-action="New">
+
+                            <i class="bi bi-plus-circle-fill"></i>
+                            Yeni Ülke
+                        </a>
+
+                    </div>
+
+
+                    <table id="myTable" class="table table-bordered">
+
+                        <thead>
+
+                            <tr>
+                                <th>#</th>
+                                <th>Ülke</th>
+                                <th>Açıklama</th>
+                                <th> - </th>
+
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>@Model[i].Name</td>
+                                    <td>
+
+                                        @if (Model[i].Description.Length > 10)
+                                        {
+
+                                            @Model[i].Description.Substring(0,10)
+
+                                            <a href="#" class="text-primary modalButton" data-id="@Model[i].Id">devamı...</a>
+
+                                        }
+                                        else
+                                        {
+                                            @Model[i].Description
+                                        }
+
+                                    </td>
+
+
+                                    <td>
+
+
+                                        <button class="btn btn-sm btn-secondary modalButton" data-id="@Model[i].Id">
+                                            <i class="bi-search"></i>
+                                            Detay
+
+
+                                        </button>
+
+
+
+
+
+
+                                        <a class="btn btn-sm btn-outline-primary" asp-area="Admin" asp-controller="Country"
+                                       asp-action="Edit" asp-route-id="@Model[i].Id">
+
+                                            <i class="bi bi-pencil-square"></i>
+
+                                            Güncelle
+                                        </a>
+
+
+
+
+                                        <a href="#" data-id="@Model[i].Id" class="btn btn-sm btn-outline-danger delete">
+
+                                            <i class="bi bi-trash3"></i>
+
+                                            Sil
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+
+
+
+                    </table>
+
+
+
+
+                    <div style="margin-top:30px">
+
+                        <div class="col-md-3
+" style="margin-left:auto;text-align:right">
+
+                            @Html.PagedListPager((IPagedList)Model,page=>Url.Action("List","Country",new {page=page}),
+                            new PagedListRenderOptions {
+
+                            LiElementClasses=new List<string>
+                            {"page-link"}
+                            })
+
+
+
+
+                        </div>
+
+                    </div>
+
+                    <p class="text-secondary">Toplam @ViewBag.countryCount Kayıtlı Şehir Bulundu.</p>
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts{
+
+
+    <script>
+
+
+
+
+        $(".modalButton").click(function () {
+            // AJAX isteği yapın
+
+            var countryId = $(this).data("id")
+
+            $.ajax({
+                url: "/Admin/Country/Detail/" + countryId,
+                type: "GET",
+                success: function (result) {
+                    // Detail sayfasındaki içeriği alın
+                    $("#modalContent").html(result);
+                    // Modalı açın
+                    $("#modalContainer").modal("show");
+                }
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+        $('#myTable .delete').click(function (e) {
+
+            e.preventDefault();
+
+            var countryId = $(this).data('id');
+
+            Swal.fire({
+                title: 'Emin misin?',
+                text: "Dikkat ! Kayıt silinecektir.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Onaylıyorum.',
+                cancelButtonText: "İptal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Admin/Country/Delete/' + countryId,
+                        method: "GET"
+                    }).done(function () {
+
+                        Swal.fire(
+                            'Silindi!',
+                            'Bir Kayıt Başarıyla Silindi.',
+                            'success'
+                        ).then(() => { window.location.reload() }
+                        );
+                    }).fail(function () {
+
+                        Swal.fire("Hata!", "Bir hata oluştu, Kayıt silinemedi.", "error")
+                    });
+
+
+                }
+            })
+
+        });
+
+
+    </script>
+
+}

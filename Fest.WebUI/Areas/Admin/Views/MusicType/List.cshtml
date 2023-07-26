@@ -1,0 +1,239 @@
+﻿@model PagedList<MusicTypeListVM>
+
+
+<div class="container">
+
+
+    <div class="row">
+
+        <div class="col-sm-11">
+
+
+
+            <div class="text-center">
+
+                <h2 style="font-family:'Italic Outline Art';" class="text-secondary">Müzik Türleri</h2>
+
+            </div>
+
+
+            <div class="padding-top:50px">
+
+
+
+                <div style="padding-bottom:15px">
+
+
+                    <div class="float-start">
+                        <form>
+                            <div class="btn-group">
+                                <input class="form-control" type="text" placeholder="Arama Yap ...." name="search" style="display: inline-block; width: 80%;" />
+                                <input class="p-2 ml-3 btn btn-sm btn-primary" type="submit" value="Ara" style="display: inline-block; width: 20%;" />
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <div class="float-end">
+                    <a asp-area="Admin" asp-controller="MusicType" asp-action="New" class="btn btn-link">
+
+                        <i class="bi bi-plus-circle-fill">
+                            Yeni Müzik Türü
+                        </i>
+
+                    </a>
+                </div>
+
+            </div>
+
+
+            <table id="myTable" class="table table-bordered table-striped">
+
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Müzik Adı</th>
+                        <th>Müzik Türü</th>
+                        <th>Oluşturulma Tarihi</th>
+                        <th>Açıklama</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td>@(i + 1)</td>
+                                <td>@Model[i].MusicName</td>
+                                <td>@Model[i].TypeName</td>
+
+                                <td>@Model[i].CreatedDate</td>
+                                <td>@Model[i].Description</td>
+
+                                <td>
+
+
+                                    <button class="btn btn-sm btn-secondary modalButton" data-id="@Model[i].Id">
+                                        <i class="bi-search">Detay</i>
+
+
+
+                                    </button>
+
+                                    <a asp-area="Admin" asp-controller="MusicType" asp-action="New" asp-route-id="@Model[i].Id" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-pencil-square">Düzenle</i>
+                                    </a>
+                                    <a data-id="@Model[i].Id" class="btn btn-sm btn-danger delete">
+                                        <i class="bi bi-trash3">Sil</i>
+                                    </a>
+
+
+
+
+
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>Henüz Kayıt Bulunmuyor</td>
+                        </tr>
+                    }
+
+
+                </tbody>
+
+            </table>
+
+
+            <div style="margin-top:30px">
+
+                <div class="col-md-3
+" style="margin-left:auto;text-align:right">
+
+                    @Html.PagedListPager((IPagedList)Model,page=>Url.Action("List","MusicType",new {page=page}),
+                    new PagedListRenderOptions {
+
+                    LiElementClasses=new List<string>
+                    {"page-link"}
+                    })
+
+
+
+
+                </div>
+
+            </div>
+
+
+            <p class="text-secondary">
+
+
+                Toplam : @ViewBag.musicType Kayıt Bulundu.
+
+            </p>
+            
+
+
+        </div>
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+@section Scripts{
+
+    <script>
+
+        $(".modalButton").click(function () {
+            // AJAX isteği yapın
+
+            var Id = $(this).data("id")
+
+            $.ajax({
+                url: "/Admin/MusicType/Detail/" + Id,
+                type: "GET",
+                success: function (result) {
+                    // Detail sayfasındaki içeriği alın
+                    $("#modalContent").html(result);
+                    // Modalı açın
+                    $("#modalContainer").modal("show");
+                }
+            });
+        });
+
+
+
+
+        $('#myTable .delete').click(function (e) {
+
+            e.preventDefault();
+
+            var countryId = $(this).data('id');
+
+            Swal.fire({
+                title: 'Emin misin?',
+                text: "Dikkat ! Kayıt silinecektir.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Onaylıyorum.',
+                cancelButtonText: "İptal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/Admin/MusicType/Delete/' + countryId,
+                        method: "GET"
+                    }).done(function () {
+
+                        Swal.fire(
+                            'Silindi!',
+                            'Bir Kayıt Başarıyla Silindi.',
+                            'success'
+                        ).then(() => { window.location.reload() }
+                        );
+                    }).fail(function () {
+
+                        Swal.fire("Hata!", "Bir hata oluştu, Kayıt silinemedi.", "error")
+                    });
+
+
+                }
+            })
+
+        });
+
+
+    </script>
+
+
+
+
+}

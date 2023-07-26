@@ -1,0 +1,197 @@
+﻿@model List<UserListVM>
+
+
+<div class="container">
+
+
+    <div class="row">
+
+        <div class="col-sm-11">
+
+            <div class="text-center">
+
+                <h2 style="font-family:'Italic Outline Art';" class="text-secondary">Kullanıcılar</h2>
+            </div>
+
+
+            <div style="padding-top:50px">
+
+
+                <div style="margin-bottom:15px">
+
+
+                    <div class="float-start">
+                        <form>
+                            <div class="btn-group">
+                                <input class="form-control" type="text" placeholder="Arama Yap ...." name="search" style="display: inline-block; width: 80%;" />
+                                <input class="p-2 ml-3 btn btn-sm btn-primary" type="submit" value="Ara" style="display: inline-block; width: 20%;" />
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <div class="float-end">
+                    
+                </div>
+
+
+                <table id="myTable" class="table table-bordered table-striped">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+                            <th>İsim</th>
+                            <th>Soyisim</th>
+                            <th>Oluşturulma Tarihi</th>
+
+                            <th></th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model != null)
+                        {
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+
+                                <tr class="table">
+
+                                    <td>
+                                        @if (Model[i].IsActive == true && Model[i].IsActive)
+                                        {
+                                            <p class="text-primary">Aktif</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-danger">Aktif Değil</p>
+                                        }
+
+                                    </td>
+
+
+
+
+
+                                    <td>@Model[i].Name</td>
+                                    <td class="mt-4">@Model[i].LastName</td>
+
+                                    <td>@Model[i].CreatedDate</td>
+
+                                    <td>
+
+
+                                        <button class="btn btn-sm btn-secondary modalButton" data-id="@Model[i].Id">
+                                            <i class="bi-search"></i>
+                                            Detay
+
+
+                                        </button>
+
+                                        <div class="modal fade" id="modalContainer" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content" id="modalContent">
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- End Basic Modal-->
+                                        @if (Model[i].IsActive)
+                                        {
+                                            <a style="margin-left:3px" class="btn btn-sm btn-danger" asp-area="Admin" asp-controller="User" asp-action="InActive" asp-route-id="@Model[i].Id">
+
+                                                <i class="bi bi-trash-fill">Kullanıcıyı Kısıtla</i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a style="margin-left:3px" asp-area="Admin" asp-controller="User" asp-action="Active" asp-route-id="@Model[i].Id" class="btn btn-sm btn-success">
+                                                <i class="bi bi-pencil-fill">Kullanıcı Kısıtını Aç</i>
+                                            </a>
+                                        }
+
+
+
+
+
+
+                                    </td>
+
+
+                                </tr>
+
+                            }
+                        }
+                        else
+                        {
+                            <tr class="container">
+                                <td>Henüz Bir Kayıt Bulunamadı</td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+
+        <div>
+            <p class="text-secondary">Toplam : @ViewBag.UserCount Kullanıcı Bulunmaktadır.</p>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+
+
+@section Scripts{
+
+    <script>
+
+        $(".modalButton").click(function () {
+            // AJAX isteği yapın
+            
+            var Id = $(this).data("id")
+
+            $.ajax({
+                url: "/Admin/User/Detail/" + Id,
+                type: "GET",
+                success: function (result) {
+                    // Detail sayfasındaki içeriği alın
+                    $("#modalContent").html(result);
+                    // Modalı açın
+                    $("#modalContainer").modal("show");
+                }
+            });
+        });
+
+
+
+
+        
+
+
+    </script>
+
+
+
+
+}
+

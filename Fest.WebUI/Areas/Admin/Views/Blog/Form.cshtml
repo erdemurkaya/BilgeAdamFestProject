@@ -1,0 +1,104 @@
+﻿@model BlogAddOrUpdateVM
+
+<div class="container" style="padding-top:40px">
+
+    <div class="row">
+
+        <div class="col-md-8 offset-2">
+
+            <div class="card" style="border:solid 2px">
+
+                <div class="card-header fw-bold fs-5" style="text-align:center">
+
+                    <p class="text-bg-light">
+
+                        @(Model.Id==0?"Blog Ekleme Formu":"Blog Düzenleme Formu")
+
+                    </p>
+                </div>
+
+
+                <div class="card-body">
+
+                    <form method="post" asp-area="Admin" asp-controller="Blog" asp-action="Save" enctype="multipart/form-data">
+
+                        @if (!string.IsNullOrWhiteSpace(ViewBag.errorMessage))
+                        {
+                            <div class="alert-danger">
+                                @ViewBag.errorMessage
+                            </div>
+                        }
+
+                        <input asp-for="Id" type="hidden" />
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="Title"></label>
+
+                            <input asp-for="Title" class="form-control" type="text" />
+
+                            <span asp-validation-for="Title" class="text-danger fw-bold"></span>
+
+                        </div>
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="Content"></label>
+
+                            <textarea asp-for="Content" class="form-control" >
+
+                            </textarea>
+
+                            <span asp-validation-for="Content" class="text-danger fw-bold"></span>
+
+                        </div>
+
+
+                        <div class="form-group mb-2">
+
+                            <label asp-for="File"></label>
+
+                            @if (Model.Id != 0)
+                            {
+                                @if (string.IsNullOrWhiteSpace(@ViewBag.ImagePath))
+                                {
+                                    <div>
+
+                                        <img src="~/images/artists/@ViewBag.ImagePath" style="width:200px; height:200px" />
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div>
+
+                                        <img src="~/images/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg"
+                                             style="width:200px; height:200px" />
+
+                                    </div>
+                                }
+                            }
+
+
+                            <input asp-for="File" type="file" class="form-control" />
+
+                            <span asp-validation-for="File" class="text-danger fw-bold"></span>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-success mt-3 float-end">
+
+                            @(Model.Id==0?"Kaydet":"Güncelle")
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
